@@ -13,7 +13,7 @@ jt.flags.use_cuda = 1
 combine_model = CombineModel()
 
 print('start')
-fileRoot = './test'
+fileRoot = './sketch'
 images_path = sorted(glob.glob(fileRoot+r"/*"))
 
 params = [
@@ -42,7 +42,7 @@ for x,fileName in enumerate(images_path):
     
     combine_model.predict_shadow(mat_img)
     
-    output_file = 'ori'+ str(x) +'.jpg'
+    output_file = '/result/' + fileName + str(x) +'.jpg'
     print('Output file:',output_file)
     cv2.imwrite(output_file,cv2.cvtColor(combine_model.generated, cv2.COLOR_BGR2RGB))
     i = i + 1
