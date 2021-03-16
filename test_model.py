@@ -40,7 +40,13 @@ for x,fileName in enumerate(images_path):
     combine_model.part_weight['mouth'] = params[i][3]
     combine_model.part_weight[''] = params[i][4]
     
-    combine_model.predict_shadow(mat_img)
+    try:
+        combine_model.predict_shadow(mat_img)
+    except np.linalg.LinAlgError as err:
+        if 'Singular matrix' in str(err):
+            pass
+        else:
+            raise
     
     output_file = 'ori'+ str(x) +'.jpg'
     print('Output file:',output_file)
