@@ -132,7 +132,7 @@ class AE_Model(nn.Module):
 
         idx_sort = b[0].numpy()
         print(f"b: {b}")
-        print(f"b type: {b.type()}")
+        print(f"b type: {type(b)}")
         if nearnN==1:
             vec_mu = feature_list[idx_sort[0]]
             vec_mu = vec_mu * w_c + (1 - w_c) * generated_f
