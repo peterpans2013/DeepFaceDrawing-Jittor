@@ -96,9 +96,16 @@ class AE_Model(nn.Module):
     def get_inter(self, input_image, nearnN=3, sex=1,w_c=1,random_=-1):
         generated_f = self.get_latent(input_image)
         generated_f = generated_f.numpy()
-        
+        print(f"generated_f type: {type(generated_f)}")
+        print(f"generated_f value: {generated_f}")
+        print(f"generated_f shape: {generated_f.shape}")
         feature_list = self.feature_list[sex]
+        print(f"feature_list type: {type(feature_list)}")
+        print(f"feature_list value: {feature_list}")
+        print(f"feature_list shape: {feature_list.shape}")
         list_len = jt.array([feature_list.shape[0]])
+        print(f"list_len type: {type(list_len)}")
+        print(f"list_len value: {list_len}")
         # a = jt.random((n,3))
         b = jt.code([1, nearnN], 
               "int32", [jt.array(feature_list),jt.array(generated_f), list_len], 
@@ -129,12 +136,12 @@ class AE_Model(nn.Module):
                   @out(0,j) = id[j].second;
               """
         )
-
-        idx_sort = b[0].numpy()
-        print(f"idx_sort value: {idx_sort}")
-        print(f"idx_sort type: {type(idx_sort)}")
+        
         print(f"b value: {b}")
         print(f"b type: {type(b)}")
+        idx_sort = b[0].numpy()
+        # print(f"idx_sort value: {idx_sort}")
+        # print(f"idx_sort type: {type(idx_sort)}")
         if nearnN==1:
             vec_mu = feature_list[idx_sort[0]]
             vec_mu = vec_mu * w_c + (1 - w_c) * generated_f
@@ -143,8 +150,8 @@ class AE_Model(nn.Module):
         # |  vg - sum( wi*vi )|   et. sum(wi) = 1
         # == | vg - v0 - sum( wi*vi) |   et. w = [1,w1,...,wn]
         A_0 = [feature_list[idx_sort[0],:]]
-        print(f"A_0 value: {A_0}")
-        print(f"A_0 type: {type(A_0)}")
+        # print(f"A_0 value: {A_0}")
+        # print(f"A_0 type: {type(A_0)}")
         A_m = A_0
         for i in range(1,nearnN):
             A_m = np.concatenate((A_m,[feature_list[idx_sort[i],:]]), axis=0)
