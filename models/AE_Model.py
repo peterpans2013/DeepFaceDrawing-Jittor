@@ -131,7 +131,9 @@ class AE_Model(nn.Module):
         )
 
         idx_sort = b[0].numpy()
-        print(f"b: {b}")
+        print(f"idx_sort value: {idx_sort}")
+        print(f"idx_sort type: {type(idx_sort)}")
+        print(f"b value: {b}")
         print(f"b type: {type(b)}")
         if nearnN==1:
             vec_mu = feature_list[idx_sort[0]]
@@ -141,6 +143,8 @@ class AE_Model(nn.Module):
         # |  vg - sum( wi*vi )|   et. sum(wi) = 1
         # == | vg - v0 - sum( wi*vi) |   et. w = [1,w1,...,wn]
         A_0 = [feature_list[idx_sort[0],:]]
+        print(f"A_0 value: {A_0}")
+        print(f"A_0 type: {type(A_0)}")
         A_m = A_0
         for i in range(1,nearnN):
             A_m = np.concatenate((A_m,[feature_list[idx_sort[i],:]]), axis=0)
